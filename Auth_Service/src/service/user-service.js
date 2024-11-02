@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const UserRepository = require('../repository/user-repository');
 const {JWT_KEY} = require('../config/serverConfig');
 const { response } = require('express');
+const { useInflection } = require('sequelize');
 
 class UserService {
     constructor(){
@@ -86,6 +87,14 @@ class UserService {
          console.log("somthing went wrong in password comparision");
          throw error
        }
+    }
+
+    isAdmin(userId){
+      try{
+        return this.userRepository.isAdmin(userId);
+      } catch(error){
+        console.log("somthing went wrong in service layer")
+      }
     }
 
 
