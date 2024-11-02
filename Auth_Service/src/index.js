@@ -6,6 +6,10 @@ const apiRoutes = require('./router/index');
 const multer = require('multer')
 const upload = multer()
 
+const db = require('./models/index')
+const {User,Role} = require('./models/index');
+const user = require('./models/user');
+
 // const UserService = require('./service/user-service')
 
 const prepareAndStartServer = () => {
@@ -16,6 +20,17 @@ const prepareAndStartServer = () => {
 
     app.listen(PORT, async () => {
         console.log(`server started at Port: ${PORT}`);
+
+        if(process.env.DB_SYNC){
+           db.sequelize.sync({alter:true})
+        }
+
+        const u1 = await User.findByPk(3);
+        const r1 = await Role.findByPk(2);
+        // u1.addRole(r1);
+
+        const response = await u1.getRoles();
+        console.log(response);
         
         // const service = new UserService();
         // const newToken = service.createToken({email:'ayush@admin.com',id:1});

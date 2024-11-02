@@ -18,13 +18,13 @@ class UserService {
             throw error;
          }
     }
-
+   
     async signIn(email,plainPassword){
        try{
         // step1 - FETCH THE USER USING THE EMAIL;
         const user = await this.userRepository.getByEmail(email);
 
-        // step2 -> compare the incoming password with the stored encrpted password;
+        // step2 -> if(user gets) then compare the incoming password with the stored encrpted password;
         const passwordsMatch = this.checkPassword(plainPassword,user.password);
         if(!passwordsMatch){
           console.log("password does't match");
@@ -47,7 +47,7 @@ class UserService {
         if(!isTokenVerified) {
           throw{ error : 'Invalid token'}
         }
-        const user = this.userRepository.getById(response.id);
+        const user = await this.userRepository.getById(response.id);
         if(!user) throw{error: 'No user with the correspondng tokin exists'}
         return user.id;
 

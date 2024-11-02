@@ -27,15 +27,15 @@ class UserRepository{
 
     async getById(userId){
         try{
+            
           const user = await User.findByPk(userId,{
-            attributes: ['email','id']
+            attributes: ['email','id'] // get karte samay kon kon se attribute chahta hu mai
           });
           return user;
         } catch(error){
             console.log("something went wrong in repository layer")
             throw error;
         }
-
     }
 
     async getByEmail(userEmail){
