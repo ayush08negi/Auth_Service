@@ -24,5 +24,5 @@ const validateIsAdminRequest = ( req,res,next)=>{
 
 module.exports ={
     validateUserAuth, 
-    validateIsAdminRequest
+    validateIsAdminRequest 
 }

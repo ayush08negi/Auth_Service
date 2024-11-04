@@ -5,6 +5,7 @@ const UserRepository = require('../repository/user-repository');
 const {JWT_KEY} = require('../config/serverConfig');
 const { response } = require('express');
 const { useInflection } = require('sequelize');
+const AppError = require('../utils/error-handler');
 
 class UserService {
     constructor(){
@@ -15,8 +16,16 @@ class UserService {
            const user = await this.userRepository.create(data);
            return user;
          } catch(error){
-            console.log("somthing went wrong in service layer");
-            throw error;
+            if(error.name == 'SequelizeValidationError'){
+              throw error;
+            }
+            console.log("Something went wrong in the service layer");
+            throw new AppError('ServerError',
+              'Something went wrong in service',
+              'Logical Issue found',
+               500
+             )
+
          }
     }
    
